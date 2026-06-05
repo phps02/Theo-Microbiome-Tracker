@@ -1043,6 +1043,7 @@ h2 em {
 .cat-soil { background: rgba(184, 145, 80, 0.16); color: #8a6320; }
 .cat-gut-heal { background: rgba(74, 126, 126, 0.14); color: var(--teal); }
 .cat-detox { background: rgba(107, 76, 94, 0.14); color: var(--plum); }
+.cat-yeast { background: rgba(160, 110, 60, 0.18); color: #7a5018; }
 .cat-other { background: rgba(184, 123, 117, 0.14); color: var(--rose); }
 .cat-flagged { background: rgba(196, 99, 60, 0.16); color: var(--accent); }
 
@@ -1813,24 +1814,29 @@ h2 em {
 }
 
 /* ============================================================
-   PRINT MODE — Other Microbiome Markers PDF Export
+   PRINT MODE — Section-specific PDF export
+   Two modes: body.printing-microbiome and body.printing-supplements
    ============================================================ */
 
-/* In screen mode when print-mode class is active (preview before browser print) */
-body.printing-microbiome .print-hide {
+/* On-screen helpers when print-mode class is active (visible briefly before print) */
+body.printing-microbiome .print-hide,
+body.printing-supplements .print-hide {
   display: none !important;
 }
 
-body.printing-microbiome .other-markers-content {
+body.printing-microbiome .other-markers-content,
+body.printing-supplements .supplement-history-content {
   max-height: none !important;
   overflow: visible !important;
 }
 
-body.printing-microbiome .other-markers-icon {
+body.printing-microbiome .other-markers-icon,
+body.printing-supplements .supplement-history-icon {
   display: none;
 }
 
-body.printing-microbiome .other-markers-toggle {
+body.printing-microbiome .other-markers-toggle,
+body.printing-supplements .supplement-history-toggle {
   cursor: default;
   pointer-events: none;
 }
@@ -1839,41 +1845,68 @@ body.printing-microbiome .other-markers-toggle {
   body { background: white; color: #000; }
   .container { max-width: 100%; padding: 0; }
 
-  /* Hide EVERYTHING by default */
-  body > * { display: none !important; }
-  .container { display: block !important; }
-  .container > * { display: none !important; }
-
-  /* SHOW only the items we want — set explicit display values to preserve layout */
-  .container > .hub-header { display: flex !important; }
-  .container > .title-section { display: block !important; }
-  .container > .stats-bar {
-    display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
-  }
-  .container > .stats-bar .stat { background: white !important; }
-  .container > #otherMarkers { display: block !important; }
-
-  /* Hide the print button itself inside the printed output */
+  /* Common print hides */
   .print-hide { display: none !important; }
-
-  /* Hide the hub-link (Care Hub back-arrow) inside hub-header */
   .hub-header .hub-link { display: none !important; }
   .care-hub-back { display: none !important; }
 
-  /* Force collapsible open */
-  .other-markers-content {
+  /* Hide EVERYTHING by default for both modes */
+  body.printing-microbiome > *,
+  body.printing-supplements > * { display: none !important; }
+  body.printing-microbiome .container,
+  body.printing-supplements .container { display: block !important; }
+  body.printing-microbiome .container > *,
+  body.printing-supplements .container > * { display: none !important; }
+
+  /* Common shown elements (both modes) */
+  body.printing-microbiome .container > .hub-header,
+  body.printing-supplements .container > .hub-header {
+    display: flex !important;
+  }
+  body.printing-microbiome .container > .title-section,
+  body.printing-supplements .container > .title-section {
+    display: block !important;
+  }
+  body.printing-microbiome .container > .stats-bar,
+  body.printing-supplements .container > .stats-bar {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+  body.printing-microbiome .container > .stats-bar .stat,
+  body.printing-supplements .container > .stats-bar .stat {
+    background: white !important;
+  }
+
+  /* MICROBIOME MODE — show intervention timeline + other markers */
+  body.printing-microbiome .container > #interventionTimelineSection {
+    display: block !important;
+  }
+  body.printing-microbiome .container > #otherMarkers {
+    display: block !important;
+  }
+
+  /* SUPPLEMENTS MODE — show supplement history */
+  body.printing-supplements .container > #supplementHistory {
+    display: block !important;
+  }
+
+  /* Force relevant collapsibles open */
+  body.printing-microbiome .other-markers-content,
+  body.printing-supplements .supplement-history-content {
     max-height: none !important;
     overflow: visible !important;
     display: block !important;
   }
-  .other-markers-inner { display: block !important; }
-  .other-markers-icon { display: none !important; }
-  .other-markers-toggle { cursor: default !important; }
+  .other-markers-inner,
+  .supplement-history-inner { display: block !important; }
+  .other-markers-icon,
+  .supplement-history-icon { display: none !important; }
+  .other-markers-toggle,
+  .supplement-history-toggle { cursor: default !important; }
 
   /* Page break controls */
   .section { page-break-inside: avoid; break-inside: avoid; margin-bottom: 18px; }
-  .other-markers { page-break-inside: auto; }
+  .other-markers, .supplement-history { page-break-inside: auto; }
   table { page-break-inside: auto; }
   tr { page-break-inside: avoid; }
   h2, h3, h4 { page-break-after: avoid; }
@@ -2128,7 +2161,7 @@ body.printing-microbiome .other-markers-toggle {
   </div>
 
   <!-- INTERVENTION TIMELINE -->
-  <div class="section">
+  <div class="section" id="interventionTimelineSection">
     <div class="section-header">
       <h2>Intervention <em>timeline</em></h2>
       <span class="section-meta">What's targeting what · when</span>
@@ -2172,7 +2205,7 @@ body.printing-microbiome .other-markers-toggle {
     <button class="supplement-history-toggle" onclick="document.getElementById('supplementHistory').classList.toggle('open')">
       <span class="supplement-history-toggle-label">
         <span>Gut supplements <em>history</em></span>
-        <span class="supplement-history-meta">Jul 2023 → present · 20 entries · evolution toward what works</span>
+        <span class="supplement-history-meta">Jul 2023 → present · 21 entries · evolution toward what works</span>
       </span>
       <span class="supplement-history-icon">+</span>
     </button>
@@ -2188,13 +2221,13 @@ body.printing-microbiome .other-markers-toggle {
         <div class="history-stats">
           <div class="history-stat">
             <div class="history-stat-label">Total entries</div>
-            <div class="history-stat-value">20</div>
-            <div class="history-stat-detail">Jul 2023 → Feb 2026</div>
+            <div class="history-stat-value">21</div>
+            <div class="history-stat-detail">Jul 2023 → May 2026</div>
           </div>
           <div class="history-stat">
             <div class="history-stat-label">Distinct products</div>
-            <div class="history-stat-value">9</div>
-            <div class="history-stat-detail">Across 5 brands</div>
+            <div class="history-stat-value">10</div>
+            <div class="history-stat-detail">Across 6 brands</div>
           </div>
           <div class="history-stat">
             <div class="history-stat-label">Current sustained</div>
@@ -2216,6 +2249,7 @@ body.printing-microbiome .other-markers-toggle {
             <div class="category-legend">
               <div class="category-legend-item"><span class="hist-category cat-multi-strain">Multi-strain</span></div>
               <div class="category-legend-item"><span class="hist-category cat-soil">Soil-based</span></div>
+              <div class="category-legend-item"><span class="hist-category cat-yeast">Yeast</span></div>
               <div class="category-legend-item"><span class="hist-category cat-gut-heal">Gut healing</span></div>
               <div class="category-legend-item"><span class="hist-category cat-detox">Detox/liver</span></div>
               <div class="category-legend-item"><span class="hist-category cat-flagged">Flagged</span></div>
@@ -2251,6 +2285,7 @@ body.printing-microbiome .other-markers-toggle {
                 <tr><td class="hist-date">5/29/25</td><td class="hist-product">AB Roots</td><td><span class="hist-category cat-detox">Detox</span></td><td class="hist-note">Recurrence</td></tr>
                 <tr><td class="hist-date">5/29/25</td><td class="hist-product">AB Soil &amp; Sea</td><td><span class="hist-category cat-soil">Soil</span></td><td class="hist-note">Recurrence</td></tr>
                 <tr class="hist-row-current"><td class="hist-date">2/18/26</td><td class="hist-product">AB Healthy Gut</td><td><span class="hist-category cat-multi-strain">Multi</span></td><td class="hist-note"><strong>Current.</strong> Continuous since Jan 13, 2026 — first to produce 100% consistent normal stools.</td></tr>
+                <tr class="hist-row-current"><td class="hist-date">5/26/26</td><td class="hist-product">Jarrow S. boulardii + MOS</td><td><span class="hist-category cat-yeast">Yeast</span></td><td class="hist-note"><strong>Current.</strong> Started 5/26/2026 (post-Cluster 8) — Animabiome recommendation for R. gnavus suppression. Yeast probiotic = non-redundant niche vs bacterial probiotics. No CYP450 interactions with phenobarbital.</td></tr>
               </tbody>
             </table>
           </div>
@@ -2268,23 +2303,35 @@ body.printing-microbiome .other-markers-toggle {
               <div class="phase-detail">Dr. Dobias GutSense added (multi-strain Lactobacillus / Bifidobacterium). Later discontinued for Theo specifically due to ingredients with seizure-trigger concern in older formulation.</div>
             </div>
             <div class="phase-card phase-3">
-              <div class="phase-label">Phase 3 · 2025–present</div>
+              <div class="phase-label">Phase 3 · 2025–early 2026</div>
               <div class="phase-title">Comprehensive coverage</div>
               <div class="phase-detail">AB Healthy Gut (14 strains + arabinogalactan + enzymes). First product to produce consistent normal stools. Continuous since Jan 13, 2026.</div>
+            </div>
+            <div class="phase-card phase-3">
+              <div class="phase-label">Phase 4 · May 2026</div>
+              <div class="phase-title">Targeted yeast addition</div>
+              <div class="phase-detail">Jarrow S. boulardii + MOS added 5/26/2026 post-Cluster 8. Animabiome-recommended for R. gnavus suppression. Yeast probiotic = non-redundant niche vs bacterial probiotics.</div>
             </div>
 
             <div class="trend-callout">
               <div class="trend-callout-header">Trends in this timeline</div>
               <div class="trend-callout-body">
-                <strong>1.</strong> Strain breadth widened progressively — soil-only → multi-strain → 14-strain comprehensive. Mirrors what canine epilepsy probiotic literature recommends.<br><br>
+                <strong>1.</strong> Strain breadth widened progressively — soil-only → multi-strain → 14-strain comprehensive → adding yeast probiotic niche. Mirrors what canine epilepsy probiotic literature recommends.<br><br>
                 <strong>2.</strong> Recurring AB Gut Soothe entries signal persistent gut barrier issues — consistent with R. gnavus expansion later visible in microbiome data.<br><br>
                 <strong>3.</strong> AB Healthy Gut is the first to produce clinical resolution. Combination of strain coverage + arabinogalactan prebiotic + digestive enzymes likely all contribute.<br><br>
                 <strong>4.</strong> Pre-AB-Healthy-Gut period was short, rotational use — no probiotic intervention had a fair 12-week evaluation window before this.<br><br>
-                <strong>5.</strong> Phyto Synergy is the only flagged entry — temporal correlation with seizure onset deserves visibility.
+                <strong>5.</strong> Phyto Synergy is the only flagged entry — temporal correlation with seizure onset deserves visibility.<br><br>
+                <strong>6.</strong> Jun 2026 retest showed R. gnavus crisis despite 4mo AB Healthy Gut — S. boulardii added 5/26 as targeted yeast intervention for a gap bacterial probiotics didn't address.
               </div>
             </div>
           </div>
 
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid #e8e2d5">
+          <button class="print-hide" onclick="exportSupplementHistoryPDF()" style="font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1px;background:transparent;border:1px solid #6b6258;color:#3d3a35;padding:8px 16px;cursor:pointer;border-radius:2px;transition:background 0.15s" onmouseover="this.style.background='#faf7f1'" onmouseout="this.style.background='transparent'">
+            ⤓ Export this section as PDF
+          </button>
         </div>
 
       </div>
@@ -3514,32 +3561,33 @@ function renderInterventionTimeline() {
 renderInterventionTimeline();
 
 // ============================================================
-// PDF EXPORT — Other Microbiome Markers section only
+// PDF EXPORT — Section-specific exports
 // ============================================================
 
-function exportMicrobiomePDF() {
-  const el = document.getElementById('otherMarkers');
-  if (!el) return;
+function _doPrint(bodyClass, collapsibleId) {
+  const el = collapsibleId ? document.getElementById(collapsibleId) : null;
+  const wasOpen = el ? el.classList.contains('open') : true;
 
-  // Save state and force open
-  const wasOpen = el.classList.contains('open');
-  el.classList.add('open');
+  if (el) el.classList.add('open');
+  document.body.classList.add(bodyClass);
 
-  // Add body class to trigger print-mode styles (helps if user wants preview)
-  document.body.classList.add('printing-microbiome');
-
-  // Give the browser a moment to apply styles, then print
   setTimeout(() => {
     window.print();
 
-    // Restore state after print dialog closes
     setTimeout(() => {
-      document.body.classList.remove('printing-microbiome');
-      if (!wasOpen) {
-        el.classList.remove('open');
-      }
+      document.body.classList.remove(bodyClass);
+      if (el && !wasOpen) el.classList.remove('open');
     }, 500);
   }, 150);
+}
+
+function exportMicrobiomePDF() {
+  // Microbiome markers PDF includes the intervention timeline + other markers
+  _doPrint('printing-microbiome', 'otherMarkers');
+}
+
+function exportSupplementHistoryPDF() {
+  _doPrint('printing-supplements', 'supplementHistory');
 }
 </script>
 </body>
