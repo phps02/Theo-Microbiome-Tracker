@@ -563,6 +563,8 @@ h2 em {
   height: 20px;
   background: var(--paper-deep);
   border-radius: 2px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
 .timeline-bar {
@@ -571,6 +573,8 @@ h2 em {
   background: var(--moss);
   border-radius: 2px;
   opacity: 0.7;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 .timeline-bar.adored-beast { background: var(--gold); }
 .timeline-bar.green-juju { background: var(--moss); }
@@ -586,12 +590,14 @@ h2 em {
   border: 2px solid var(--ink);
   border-radius: 50%;
   z-index: 2;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
 .timeline-axis {
   display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 20px;
+  grid-template-columns: 145px 1fr;
+  gap: 16px;
   margin-top: 6px;
   padding-top: 6px;
   border-top: 1px solid var(--border-soft);
@@ -1065,6 +1071,7 @@ h2 em {
 .phase-card.phase-1 { border-left-color: var(--gold); }
 .phase-card.phase-2 { border-left-color: var(--teal); }
 .phase-card.phase-3 { border-left-color: var(--moss); }
+.phase-card.phase-4 { border-left-color: var(--plum); }
 
 .phase-label {
   font-family: 'JetBrains Mono', monospace;
@@ -1845,6 +1852,13 @@ body.printing-supplements .supplement-history-toggle {
   body { background: white; color: #000; }
   .container { max-width: 100%; padding: 0; }
 
+  /* Force backgrounds and colors to print (default browser behavior strips these) */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
   /* Common print hides */
   .print-hide { display: none !important; }
   .hub-header .hub-link { display: none !important; }
@@ -1925,7 +1939,7 @@ body.printing-supplements .supplement-history-toggle {
   <!-- HEADER -->
   <div class="hub-header">
     <a href="theo_dashboard_v2.html" class="hub-link">← Care Hub</a>
-    <span class="hub-meta">Microbiome Tracker · v0.1 draft</span>
+    <span class="hub-meta">Microbiome Tracker · v0.2 · Jun 2026</span>
   </div>
 
   <!-- TITLE -->
@@ -2119,7 +2133,7 @@ body.printing-supplements .supplement-history-toggle {
             4-month AB Healthy Gut delivered a <em>partial</em> win (Fusobacterium resolved, Lacto/Bifido colonized, AnimalBiome flag "Balanced") but did NOT address IE-specific dysbiosis. <strong>General gut health interventions don't necessarily move IE-relevant markers</strong> — targeted strain selection required.
           </p>
           <p style="margin:0;font-size:13px;line-height:1.7;color:#3d3a35">
-            R. gnavus 33.4% + Cluster 8 six days later is mechanistically coherent (Amlerova 2021 pathway) but not causal proof. n=1, no controls. Clinical decisions go through Dr. Dzombar (AED) and Dr. Rauf / Dr. Otter (integrative); the analysis here is research synthesis, not clinical recommendation.
+            R. gnavus 33.4% + Cluster 8 six days later is mechanistically coherent (Amlerova 2021 pathway) but not causal proof. n=1, no controls. Clinical decisions go through Dr. Dzombar (AED) and Dr. Rauf (integrative TCVM); gut strategy synthesis pending Dr. Suter consultation. The analysis here is research synthesis, not clinical recommendation.
           </p>
         </div>
       </div>
@@ -2167,6 +2181,10 @@ body.printing-supplements .supplement-history-toggle {
       <span class="section-meta">What's targeting what · when</span>
     </div>
     <div class="intervention-timeline" id="interventionTimeline"></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding:0 4px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#6b6258;letter-spacing:0.02em">
+      <span style="display:inline-block;width:9px;height:9px;background:#faf7f1;border:2px solid #2a2520;border-radius:50%"></span>
+      <span>= Animabiome sample collection date</span>
+    </div>
   </div>
 
   <!-- OTHER MARKERS (collapsible) -->
@@ -2191,8 +2209,8 @@ body.printing-supplements .supplement-history-toggle {
           ✓ Harmful bacteria panel: all values in acceptable range across all three samples (Clostridioides difficile, Clostridium perfringens, Campylobacter, Staph spp., Salmonella, Listeria — all 0.0). E. coli appeared at 0.7 in Jun 2026 sample but remains well within acceptable range (0.0–5.0); not a clinical concern.
         </div>
 
-        <div style="display:flex;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid #e8e2d5">
-          <button class="print-hide" onclick="exportMicrobiomePDF()" style="font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1px;background:transparent;border:1px solid #6b6258;color:#3d3a35;padding:8px 16px;cursor:pointer;border-radius:2px;transition:background 0.15s" onmouseover="this.style.background='#faf7f1'" onmouseout="this.style.background='transparent'">
+        <div class="print-hide" style="display:flex;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid #e8e2d5">
+          <button onclick="exportMicrobiomePDF()" style="font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1px;background:transparent;border:1px solid #6b6258;color:#3d3a35;padding:8px 16px;cursor:pointer;border-radius:2px;transition:background 0.15s" onmouseover="this.style.background='#faf7f1'" onmouseout="this.style.background='transparent'">
             ⤓ Export this section as PDF
           </button>
         </div>
@@ -2307,7 +2325,7 @@ body.printing-supplements .supplement-history-toggle {
               <div class="phase-title">Comprehensive coverage</div>
               <div class="phase-detail">AB Healthy Gut (14 strains + arabinogalactan + enzymes). First product to produce consistent normal stools. Continuous since Jan 13, 2026.</div>
             </div>
-            <div class="phase-card phase-3">
+            <div class="phase-card phase-4">
               <div class="phase-label">Phase 4 · May 2026</div>
               <div class="phase-title">Targeted yeast addition</div>
               <div class="phase-detail">Jarrow S. boulardii + MOS added 5/26/2026 post-Cluster 8. Animabiome-recommended for R. gnavus suppression. Yeast probiotic = non-redundant niche vs bacterial probiotics.</div>
@@ -2328,8 +2346,8 @@ body.printing-supplements .supplement-history-toggle {
 
         </div>
 
-        <div style="display:flex;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid #e8e2d5">
-          <button class="print-hide" onclick="exportSupplementHistoryPDF()" style="font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1px;background:transparent;border:1px solid #6b6258;color:#3d3a35;padding:8px 16px;cursor:pointer;border-radius:2px;transition:background 0.15s" onmouseover="this.style.background='#faf7f1'" onmouseout="this.style.background='transparent'">
+        <div class="print-hide" style="display:flex;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid #e8e2d5">
+          <button onclick="exportSupplementHistoryPDF()" style="font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1px;background:transparent;border:1px solid #6b6258;color:#3d3a35;padding:8px 16px;cursor:pointer;border-radius:2px;transition:background 0.15s" onmouseover="this.style.background='#faf7f1'" onmouseout="this.style.background='transparent'">
             ⤓ Export this section as PDF
           </button>
         </div>
@@ -2839,7 +2857,7 @@ body.printing-supplements .supplement-history-toggle {
           <strong style="display:block;margin-bottom:10px;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1px">What we expected from the Jun 2026 retest (Jan-era hypothesis)</strong>
           The Jan 2026 sample showed a partial win on SCFA producers (Faecalibacterium recovery) likely driven by Green Juju, but worsening on inflammatory/gram-negative markers (Fusobacterium dominance, R. gnavus 47× expansion). The plan going into the 4-month AB Healthy Gut window was: (1) broad 14-strain bacterial pressure + larch arabinogalactan prebiotic should suppress Fusobacterium and feed Prevotella; (2) targeted addition of S. boulardii, goat colostrum, and possibly The Wolf was being held back as "tier 2/3" pending the retest data.
           <br><br>
-          <strong>What the Jun 2026 sample actually showed:</strong> AB Healthy Gut resolved Fusobacterium (49.4 → 6.0 ✓) and established Lactobacillus/Bifidobacterium colonization ✓ — but did NOT address the IE-specific dysbiosis signature. R. gnavus exploded further (4.7 → 33.4 Critical), Prevotella stayed at 0.0, Faecalibacterium lost its gain, and Collinsella began rising (the Yang 2026 most-robust IE biomarker). This shifted the priority order: S. boulardii moved from "planned" to "Priority 1" (started 5/26 ahead of pheno load), and Visbiome Vet Advanced GI Care (De Simone Formulation, ACVIM 2026 endorsed for dogs) emerged as the strongest candidate for next addition pending vet discussion.
+          <strong>What the Jun 2026 sample actually showed:</strong> AB Healthy Gut resolved Fusobacterium (49.4 → 6.0 ✓) and established Lactobacillus/Bifidobacterium colonization ✓ — but did NOT address the IE-specific dysbiosis signature. R. gnavus exploded further (4.7 → 33.4 Critical), Prevotella stayed at 0.0, Faecalibacterium lost its gain, and Collinsella began rising (the Yang 2026 most-robust IE biomarker). This shifted the priority order: S. boulardii moved from "planned" to "Priority 1" (started 5/26 ahead of pheno load), and Visbiome Vet Advanced GI Care (De Simone Formulation, ACVIM 2026 endorsed for dogs) was added to the confirmed core stack.
           <br><br>
           <strong>Key learning preserved:</strong> Fusobacterium urgency framing was partly correct (LPS pathway is real) but the AB Healthy Gut intervention happened to address it incidentally. The bigger lesson is that <em>general gut health interventions don't necessarily move IE-specific markers</em>. Targeted strain selection (GABA producers, R. gnavus suppressors, Prevotella enrichers per canine in vivo evidence) is required.
         </div>
