@@ -528,8 +528,8 @@ h2 em {
 
 .timeline-row {
   display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 20px;
+  grid-template-columns: 145px 1fr;
+  gap: 16px;
   align-items: center;
   padding: 10px 0;
   border-bottom: 1px solid var(--border-soft);
@@ -544,16 +544,18 @@ h2 em {
 
 .timeline-name {
   font-family: 'Fraunces', serif;
-  font-size: 14px;
+  font-size: 13px;
   font-style: italic;
   color: var(--ink);
+  line-height: 1.25;
 }
 
 .timeline-meta {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
+  font-size: 8.5px;
   color: var(--ink-muted);
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
+  line-height: 1.35;
 }
 
 .timeline-bar-container {
@@ -572,6 +574,7 @@ h2 em {
 }
 .timeline-bar.adored-beast { background: var(--gold); }
 .timeline-bar.green-juju { background: var(--moss); }
+.timeline-bar.s-boulardii { background: var(--accent); }
 
 .sample-dot {
   position: absolute;
@@ -1808,6 +1811,79 @@ h2 em {
   .timeline-row { grid-template-columns: 1fr; }
   .timeline-axis { grid-template-columns: 1fr; }
 }
+
+/* ============================================================
+   PRINT MODE — Other Microbiome Markers PDF Export
+   ============================================================ */
+
+/* In screen mode when print-mode class is active (preview before browser print) */
+body.printing-microbiome .print-hide {
+  display: none !important;
+}
+
+body.printing-microbiome .other-markers-content {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+body.printing-microbiome .other-markers-icon {
+  display: none;
+}
+
+body.printing-microbiome .other-markers-toggle {
+  cursor: default;
+  pointer-events: none;
+}
+
+@media print {
+  body { background: white; color: #000; }
+  .container { max-width: 100%; padding: 0; }
+
+  /* Hide EVERYTHING by default */
+  body > * { display: none !important; }
+  .container { display: block !important; }
+  .container > * { display: none !important; }
+
+  /* SHOW only the items we want — set explicit display values to preserve layout */
+  .container > .hub-header { display: flex !important; }
+  .container > .title-section { display: block !important; }
+  .container > .stats-bar {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+  .container > .stats-bar .stat { background: white !important; }
+  .container > #otherMarkers { display: block !important; }
+
+  /* Hide the print button itself inside the printed output */
+  .print-hide { display: none !important; }
+
+  /* Hide the hub-link (Care Hub back-arrow) inside hub-header */
+  .hub-header .hub-link { display: none !important; }
+  .care-hub-back { display: none !important; }
+
+  /* Force collapsible open */
+  .other-markers-content {
+    max-height: none !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+  .other-markers-inner { display: block !important; }
+  .other-markers-icon { display: none !important; }
+  .other-markers-toggle { cursor: default !important; }
+
+  /* Page break controls */
+  .section { page-break-inside: avoid; break-inside: avoid; margin-bottom: 18px; }
+  .other-markers { page-break-inside: auto; }
+  table { page-break-inside: auto; }
+  tr { page-break-inside: avoid; }
+  h2, h3, h4 { page-break-after: avoid; }
+
+  /* Print page settings */
+  @page {
+    margin: 0.5in;
+    size: letter;
+  }
+}
 </style>
 </head>
 <body>
@@ -1830,13 +1906,13 @@ h2 em {
   <div class="stats-bar">
     <div class="stat">
       <div class="stat-label">Samples</div>
-      <div class="stat-value">2</div>
-      <div class="stat-detail">Aug 2025 · Jan 2026</div>
+      <div class="stat-value">3</div>
+      <div class="stat-detail">Aug 2025 · Jan 2026 · Jun 2026</div>
     </div>
     <div class="stat">
       <div class="stat-label">Interventions tracked</div>
-      <div class="stat-value">2</div>
-      <div class="stat-detail">Green Juju · Adored Beast</div>
+      <div class="stat-value">3</div>
+      <div class="stat-detail">Green Juju · Adored Beast · S. boulardii</div>
     </div>
     <div class="stat">
       <div class="stat-label">Days since last sample</div>
@@ -1845,8 +1921,8 @@ h2 em {
     </div>
     <div class="stat">
       <div class="stat-label">Next retest window</div>
-      <div class="stat-value">May 13</div>
-      <div class="stat-detail">+90d post-AB start</div>
+      <div class="stat-value">Sep 16</div>
+      <div class="stat-detail">+90d post-S. boulardii</div>
     </div>
   </div>
 
@@ -1854,26 +1930,165 @@ h2 em {
   <div class="section">
     <div class="section-header">
       <h2>What's <em>moving</em> · what isn't</h2>
-      <span class="section-meta">Aug 2025 → Jan 2026</span>
+      <span class="section-meta">Jan 2026 → Jun 2026 · 4mo AB Healthy Gut + Green Juju</span>
     </div>
     <div class="insights">
       <div class="insight-card wins">
-        <div class="insight-header">✓ Improvements</div>
+        <div class="insight-header">✓ Real wins (4mo AB Healthy Gut)</div>
         <ul class="insight-list">
-          <li><em>Faecalibacterium</em> recovered from 0.0 → 0.8 (butyrate producer; HDAC anti-seizure mechanism)</li>
-          <li><em>Sutterella</em> normalized 5.0 → 0.7</li>
-          <li><em>Peptoclostridium</em> normalized 22.4 → 9.6</li>
-          <li>Likely attributable to Green Juju's dandelion inulin + leafy green fiber</li>
+          <li><em>Fusobacterium</em> resolved: 49.4 → <strong>6.0</strong> (87% drop, now in range) — gram-negative LPS/BBB concern addressed</li>
+          <li><em>Lactobacillus</em> established: 0.0 → <strong>2.0</strong> — AB Healthy Gut strains colonizing, not just passing through</li>
+          <li><em>Bifidobacterium</em> established: 0.0 → <strong>5.7</strong> — broad multi-strain colonization happened</li>
+          <li><em>Alloprevotella</em> resolved: 11.0 → 0.0 (inflammatory taxon)</li>
+          <li>AnimalBiome algorithm flag: <strong>"Imbalanced" → "Balanced"</strong></li>
         </ul>
       </div>
       <div class="insight-card concerns">
-        <div class="insight-header">! Persistent gaps</div>
+        <div class="insight-header">! Critical concerns (Jun 2026)</div>
         <ul class="insight-list">
-          <li><em>Prevotella_9</em> stuck at 0.0 — protective taxon per 2025 epilepsy trial</li>
-          <li><em>Fusobacterium</em> 32.3 → 49.4 — pro-inflammatory dominance</li>
-          <li><em>R. gnavus</em> 0.1 → 4.7 (47× expansion) — mucin degradation, BBB risk</li>
-          <li>Adored Beast effects not yet measured — started Jan 13, 2026</li>
+          <li><strong><em>R. gnavus</em> exploded: 4.7 → 33.4 (Critical)</strong> — 7× worse · mucin degradation → BBB → seizure threshold pathway (Amlerova 2021)</li>
+          <li><em>Faecalibacterium</em> lost: 0.8 → 0.0 — Green Juju gain didn't sustain (likely R. gnavus crowding)</li>
+          <li><em>Collinsella</em> rising: 0.5 → 2.1 — wrong direction per Yang 2026 (most robust canine IE biomarker, all 6 DA methods)</li>
+          <li><em>Prevotella_9</em> still 0.0 after 4 months of larch arabinogalactan — no movement</li>
+          <li><em>Peptoclostridium</em> rising: 9.6 → 26.6 (HIGH)</li>
+          <li>Cluster 8 (11 seizures) occurred 6 days after this sample — temporal coincidence is suggestive but not causal</li>
         </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUN 2026 CONCLUSIONS & DECISIONS -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Jun 2026 <em>conclusions</em> · what to do</h2>
+      <span class="section-meta">Values · % relative abundance</span>
+    </div>
+    <div class="insights">
+      <div class="insight-card concerns">
+        <div class="insight-header">! What needs fixing (Jun 2026)</div>
+        <ul class="insight-list">
+          <li><strong><em>R. gnavus</em> 33.4 Critical (7× worse)</strong> — mucin degradation → BBB → seizure threshold (Amlerova 2021)</li>
+          <li><em>Prevotella_9</em> stuck at 0.0 — no movement on larch arabinogalactan in 4 months</li>
+          <li><em>Faecalibacterium</em> lost 0.8 → 0.0 (likely R. gnavus crowding)</li>
+          <li><em>Collinsella</em> rising 0.5 → 2.1 — wrong direction per Yang 2026</li>
+          <li><em>Peptoclostridium</em> HIGH at 26.6</li>
+        </ul>
+      </div>
+      <div class="insight-card wins">
+        <div class="insight-header">✓ Confirmed core stack</div>
+        <ul class="insight-list">
+          <li><strong>AB Healthy Gut</strong> — continue · Lacto + Bifido colonized, Fusobacterium resolved 49 → 6</li>
+          <li><strong>Jarrow S. boulardii + MOS</strong> — started 5/26 · R. gnavus yeast competitive suppression</li>
+          <li><strong>Visbiome Vet Advanced GI Care (De Simone)</strong> — adding · ACVIM 2026 endorsed for dogs · L. helveticus GABA + R. gnavus IBD-class evidence</li>
+          <li><strong>Foundation:</strong> Green Juju · MCT 2 tbsp · NOW DHA-500 · raw NRC diet · <strong>bone broth</strong> (mucin repair) · blueberries (Collinsella polyphenols)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- CONFIRMED CORE GAPS (collapsible) -->
+    <div class="other-markers" id="coverageCheck" style="margin-top:24px">
+      <button class="other-markers-toggle" onclick="document.getElementById('coverageCheck').classList.toggle('open')">
+        <span class="other-markers-toggle-label">
+          <span>Confirmed core stack · <em>coverage check</em></span>
+          <span class="other-markers-meta">What's addressed · what isn't</span>
+        </span>
+        <span class="other-markers-icon">+</span>
+      </button>
+      <div class="other-markers-content">
+        <div class="other-markers-inner">
+          <table class="other-markers-table">
+            <thead>
+              <tr>
+                <th style="min-width:200px">Gap / Need</th>
+                <th style="text-align:center">Status</th>
+                <th>Source</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name-cell"><strong>R. gnavus suppression</strong></td>
+                <td class="value-cell" style="text-align:center"><span style="color:#5a6f4f">✓</span> <strong>Strong</strong></td>
+                <td class="value-cell">S. boulardii (yeast) + Visbiome (De Simone IBD evidence, 112.5–225B CFU)</td>
+              </tr>
+              <tr>
+                <td class="name-cell"><strong>L. helveticus (GABA, strongest)</strong></td>
+                <td class="value-cell" style="text-align:center"><span style="color:#5a6f4f">✓</span> Covered</td>
+                <td class="value-cell">Visbiome DSM 24734 + AB Healthy Gut</td>
+              </tr>
+              <tr>
+                <td class="name-cell"><strong>Mucin layer repair</strong> (R. gnavus damage)</td>
+                <td class="value-cell" style="text-align:center"><span style="color:#5a6f4f">✓</span> Covered</td>
+                <td class="value-cell">Bone broth (collagen + glutamine + glycine)</td>
+              </tr>
+              <tr>
+                <td class="name-cell"><strong>Fusobacterium maintenance</strong></td>
+                <td class="value-cell" style="text-align:center"><span style="color:#5a6f4f">✓</span> Resolved</td>
+                <td class="value-cell">Already at 6.0; AB + Visbiome competitive pressure maintains</td>
+              </tr>
+              <tr>
+                <td class="name-cell"><strong>Collinsella reduction</strong></td>
+                <td class="value-cell" style="text-align:center"><span style="color:#5a6f4f">✓</span> Addressed</td>
+                <td class="value-cell">Blueberries (polyphenol selective pressure) + general SCFA support</td>
+              </tr>
+              <tr>
+                <td class="name-cell">B. lactis</td>
+                <td class="value-cell" style="text-align:center"><span style="color:#5a6f4f">✓</span></td>
+                <td class="value-cell">Visbiome DSM 24737</td>
+              </tr>
+              <tr>
+                <td class="name-cell">B. longum + B. breve</td>
+                <td class="value-cell" style="text-align:center"><span style="color:#5a6f4f">✓</span></td>
+                <td class="value-cell">Visbiome + AB Healthy Gut</td>
+              </tr>
+              <tr>
+                <td class="name-cell"><strong>Faecalibacterium restoration</strong></td>
+                <td class="value-cell" style="text-align:center"><span style="color:#9a8050">◐</span> Indirect</td>
+                <td class="value-cell">Via R. gnavus crowding + SCFA producer competition</td>
+              </tr>
+              <tr>
+                <td class="name-cell"><strong>Peptoclostridium reduction</strong></td>
+                <td class="value-cell" style="text-align:center"><span style="color:#9a8050">◐</span> Indirect</td>
+                <td class="value-cell">S. boulardii bile acid binding + general competitive pressure</td>
+              </tr>
+              <tr>
+                <td class="name-cell"><strong>Prevotella_9 enrichment</strong></td>
+                <td class="value-cell" style="text-align:center"><span style="color:#8a6f50">✗</span> <strong>Not covered</strong></td>
+                <td class="value-cell">No L. reuteri in core stack — pending Dr. Suter</td>
+              </tr>
+              <tr>
+                <td class="name-cell"><strong>L. brevis (GABA, additive)</strong></td>
+                <td class="value-cell" style="text-align:center"><span style="color:#8a6f50">✗</span> <strong>Not covered</strong></td>
+                <td class="value-cell">Not in core stack — pending Dr. Suter</td>
+              </tr>
+              <tr>
+                <td class="name-cell">Megamonas direct delivery</td>
+                <td class="value-cell" style="text-align:center"><span style="color:#8a6f50">✗</span></td>
+                <td class="value-cell">Not addressable via any product in stack</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- KEY LEARNING (collapsible) -->
+    <div class="other-markers" id="keyLearning" style="margin-top:14px">
+      <button class="other-markers-toggle" onclick="document.getElementById('keyLearning').classList.toggle('open')">
+        <span class="other-markers-toggle-label">
+          <span>Key learning + <em>honesty check</em></span>
+          <span class="other-markers-meta">Caveats · clinical authority</span>
+        </span>
+        <span class="other-markers-icon">+</span>
+      </button>
+      <div class="other-markers-content">
+        <div class="other-markers-inner">
+          <p style="margin:0 0 14px 0;font-size:13px;line-height:1.7;color:#3d3a35">
+            4-month AB Healthy Gut delivered a <em>partial</em> win (Fusobacterium resolved, Lacto/Bifido colonized, AnimalBiome flag "Balanced") but did NOT address IE-specific dysbiosis. <strong>General gut health interventions don't necessarily move IE-relevant markers</strong> — targeted strain selection required.
+          </p>
+          <p style="margin:0;font-size:13px;line-height:1.7;color:#3d3a35">
+            R. gnavus 33.4% + Cluster 8 six days later is mechanistically coherent (Amlerova 2021 pathway) but not causal proof. n=1, no controls. Clinical decisions go through Dr. Dzombar (AED) and Dr. Rauf / Dr. Otter (integrative); the analysis here is research synthesis, not clinical recommendation.
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -1934,13 +2149,19 @@ h2 em {
     <div class="other-markers-content">
       <div class="other-markers-inner">
         <p class="other-markers-intro">
-          The remaining markers from Theo's Animabiome reports — present in both samples but without documented direct seizure or neuroinflammation relevance. Tracked here for context. Some shifts (Sutterella, Peptoclostridium) reflect the same prebiotic-driven improvements visible in the seizure-relevant set.
+          Complete reference of all markers from Theo's Animabiome reports across all three samples. The <strong>epilepsy-relevant markers</strong> at top mirror the primary dashboard data (Prevotella_9, Faecalibacterium, Megamonas, Blautia, Phascolarctobacterium, Fusobacterium, R. gnavus, Alloprevotella, Bacteroides) — same values, table view for easier scanning. Below them: common bacteria (not seizure-relevant) and lower-abundance other bacteria, tracked here for context. Some shifts (Sutterella, Peptoclostridium, Bifidobacterium, Lactobacillus) reflect the same intervention-driven changes visible in the seizure-relevant set.
         </p>
 
         <div id="otherMarkersTables"></div>
 
         <div class="harmful-note">
-          ✓ Harmful bacteria panel: all values 0.0 / in range across both samples (Clostridium perfringens, Campylobacter, Staph spp., Salmonella, E. coli, C. difficile, Listeria — none detected).
+          ✓ Harmful bacteria panel: all values in acceptable range across all three samples (Clostridioides difficile, Clostridium perfringens, Campylobacter, Staph spp., Salmonella, Listeria — all 0.0). E. coli appeared at 0.7 in Jun 2026 sample but remains well within acceptable range (0.0–5.0); not a clinical concern.
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid #e8e2d5">
+          <button class="print-hide" onclick="exportMicrobiomePDF()" style="font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1px;background:transparent;border:1px solid #6b6258;color:#3d3a35;padding:8px 16px;cursor:pointer;border-radius:2px;transition:background 0.15s" onmouseover="this.style.background='#faf7f1'" onmouseout="this.style.background='transparent'">
+            ⤓ Export this section as PDF
+          </button>
         </div>
       </div>
     </div>
@@ -2393,7 +2614,10 @@ h2 em {
           </p>
         </div>
 
-        <h3 class="mechanism-table-title" style="margin-top: 24px;">Intervention <em>priority order</em></h3>
+        <h3 class="mechanism-table-title" style="margin-top: 24px;">Intervention <em>priority order</em> <span style="font-size:11px;color:#c4633c;text-transform:uppercase;letter-spacing:1px;font-family:'JetBrains Mono',monospace;margin-left:8px">Archived · pre-Jun 2026 retest</span></h3>
+        <div style="background:#fdf6ec;border-left:3px solid #c4633c;padding:12px 16px;margin-bottom:14px;border-radius:2px;font-size:12px;line-height:1.6;color:#3d3a35">
+          <strong>Note:</strong> This priority order reflects the Jan-era plan before the Jun 2026 Animabiome retest. The R. gnavus crisis (4.7 → 33.4 Critical) and ACVIM 2026 endorsement of De Simone Formulation reordered the priorities. <strong>Current decision matrix is in the "Jun 2026 conclusions" section at the top of this page.</strong> Reasoning preserved here for context.
+        </div>
         <p style="font-size: 12px; color: var(--ink-muted); margin-bottom: 14px; line-height: 1.5; font-style: italic; max-width: 820px;">
           Ranked by alignment with the strongest dysbiosis signals (per García-Belenguer 2021 p-values) and Theo's specific marker gaps. AB Healthy Gut's prominence in the priority ranking reflects that it directly addresses the most statistically significant epileptic dysbiosis signal — depleted GABA-producing bacteria — through L. helveticus, L. rhamnosus, and L. plantarum's known GABA-production via glutamate decarboxylase.
         </p>
@@ -2412,23 +2636,23 @@ h2 em {
             <div class="priority-rank">Foundation</div>
             <div class="priority-content">
               <div class="priority-name">Green Juju + MCT (2 tbsp) + Omega-3 <span class="priority-tag-active">Active · Continue</span></div>
-              <div class="priority-rationale">Working: Faecalibacterium recovery 0.0 → 0.8. MCT at therapeutic dose validated by Royal Canin canine epilepsy trial. Microbiome amplifies MCT efficacy (Olson 2018) — these aren't independent interventions.</div>
+              <div class="priority-rationale">Working: Faecalibacterium recovery 0.0 → 0.8 (Jan); regressed to 0.0 in Jun, likely R. gnavus crowding. MCT at therapeutic dose validated by Royal Canin canine epilepsy trial. Microbiome amplifies MCT efficacy (Olson 2018) — these aren't independent interventions.</div>
             </div>
           </div>
 
           <div class="priority-row tier-1">
             <div class="priority-rank">Priority 1</div>
             <div class="priority-content">
-              <div class="priority-name">Animabiome retest</div>
-              <div class="priority-rationale">Before adding new interventions. AB Healthy Gut has now been continuous since Jan 13, 2026 — ~4 months. First true measurement of sustained probiotic effect on Theo. May close several of the gaps below.</div>
+              <div class="priority-name">Animabiome retest <span class="priority-tag-active">Done · Jun 5, 2026</span></div>
+              <div class="priority-rationale">Sample collected 5/16, 6 days pre-Cluster 8. Results reshaped the priority hierarchy — see Jun 2026 conclusions section above.</div>
             </div>
           </div>
 
           <div class="priority-row tier-2">
             <div class="priority-rank">Priority 2</div>
             <div class="priority-content">
-              <div class="priority-name">Goat colostrum <span class="priority-tag-planned">Planned · Highest leverage add</span></div>
-              <div class="priority-rationale">Multi-mechanism: lactoferrin (iron-sequestration from gram-negative Fusobacterium per Amlerova 2021), PRPs (BBB-protective anti-neuroinflammation), growth factors (gut barrier vs. R. gnavus mucin degradation), oligosaccharides (prebiotic for Bifidobacterium/Lactobacillus). Hits 4 markers simultaneously. Glutamate concern negligible due to protein-bound form + small dose.</div>
+              <div class="priority-name">Goat colostrum <span class="priority-tag-planned">Planned · Deferred</span></div>
+              <div class="priority-rationale">Multi-mechanism: lactoferrin (iron-sequestration from gram-negative Fusobacterium per Amlerova 2021), PRPs (BBB-protective anti-neuroinflammation), growth factors (gut barrier vs. R. gnavus mucin degradation), oligosaccharides (prebiotic for Bifidobacterium/Lactobacillus). <em>Fusobacterium now resolved (49 → 6) — lactoferrin angle less urgent; barrier protection rationale stands.</em></div>
             </div>
           </div>
 
@@ -2436,15 +2660,15 @@ h2 em {
             <div class="priority-rank">Priority 3</div>
             <div class="priority-content">
               <div class="priority-name">IMO or GAG-rich raw additions <span class="priority-tag-planned">Planned</span></div>
-              <div class="priority-rationale">Substrate-targeted for Prevotella_9 (depleted in García-Belenguer 2021 epileptic dogs). Raw-diet compatible. Avoids resistant-starch glucose concern. GAG additions (chicken feet, trachea) also support gut barrier.</div>
+              <div class="priority-rationale">Substrate-targeted for Prevotella_9 (still 0.0 across all 3 samples — confirmed stable absence). Raw-diet compatible. Avoids resistant-starch glucose concern. GAG additions (chicken feet, trachea) also support gut barrier.</div>
             </div>
           </div>
 
           <div class="priority-row tier-3">
             <div class="priority-rank">Priority 3</div>
             <div class="priority-content">
-              <div class="priority-name">S. boulardii <span class="priority-tag-planned">Planned</span></div>
-              <div class="priority-rationale">Originally flagged by Animabiome. Yeast probiotic niche different from AB Healthy Gut's bacterial blend (non-redundant). R. gnavus suppression. 10× seizure-risk reduction shown in human neonate rotavirus study (Amlerova 2021). Less directly aligned with strongest dysbiosis signal than goat colostrum, but clean addition.</div>
+              <div class="priority-name">S. boulardii <span class="priority-tag-active">Active · Started 5/26/2026</span></div>
+              <div class="priority-rationale">Originally flagged by Animabiome. Yeast probiotic niche different from AB Healthy Gut's bacterial blend (non-redundant). R. gnavus suppression. Promoted to Priority 1 in current decision matrix after Jun 2026 R. gnavus crisis revealed.</div>
             </div>
           </div>
 
@@ -2474,9 +2698,23 @@ h2 em {
           <div class="research-basis-header">Research basis</div>
 
           <div class="research-citation">
+            <div class="research-cite-tag">ACVIM 2026</div>
+            <div class="research-cite-text">
+              <strong>ACVIM consensus statement on chronic GI disorders in dogs.</strong> Recommends stepwise management starting with dietary modification. Specifically endorses De Simone Formulation (Visbiome Vet Advanced GI Care) as the eight-strain probiotic to consider for dogs not responding adequately to dietary trials. Guideline-level support for the Advanced GI Care variant over Constipation Care for canine use. <a href="https://academic.oup.com/jvim/article/40/1/aalaf017/8429723" target="_blank" rel="noopener" style="color:#5a6f4f;text-decoration:underline">JVIM 40(1):aalaf017 →</a>
+            </div>
+          </div>
+
+          <div class="research-citation">
             <div class="research-cite-tag">García-Belenguer 2021</div>
             <div class="research-cite-text">
               <strong>Foundational canine epilepsy microbiome study.</strong> 10 drug-naive epileptic dogs vs 12 healthy controls. Epileptic dogs significantly depleted in: Pseudomonadales/Pseudomonas (GABA producers, p&lt;0.001), Peptococcaceae/Ruminococcaceae/Anaerotruncus (SCFA producers), and Prevotellaceae Ga6A1 (brain-protective). 30-day phenobarbital/imepitoin did NOT modify gut microbiota. <em>Animals 11(11):3121.</em>
+            </div>
+          </div>
+
+          <div class="research-citation">
+            <div class="research-cite-tag">Yang 2026</div>
+            <div class="research-cite-text">
+              <strong>Largest canine IE microbiome study to date (N=98 paired, NC State).</strong> Six differential abundance methods consensus: one <em>Collinsella</em> ASV significantly more abundant in IE dogs by all 6 methods — most robust IE biomarker identified. Proposed mechanism: Collinsella → IL-17A → BBB → neuroinflammation. R. gnavus elevated in IE confirmed. Phenobarbital did NOT alter microbiome. Random forest accuracy 0.588 — microbiome signal real but modest. Household effect explains 69% of variation. <em>bioRxiv 2026.04.02.716098</em> · <a href="https://www.biorxiv.org/content/10.1101/2026.04.02.716098v1" target="_blank" rel="noopener" style="color:#5a6f4f;text-decoration:underline">read preprint →</a>
             </div>
           </div>
 
@@ -2513,9 +2751,58 @@ h2 em {
     </div>
   </div>
 
+  <!-- COLLAPSIBLE PRIOR CONCLUSIONS (Aug → Jan) -->
+  <div class="other-markers" id="priorConclusions" style="margin-bottom:20px">
+    <button class="other-markers-toggle" onclick="document.getElementById('priorConclusions').classList.toggle('open')">
+      <span class="other-markers-toggle-label">
+        <span>Prior conclusions <em>archive</em></span>
+        <span class="other-markers-meta">Aug 2025 → Jan 2026 · pre-AB Healthy Gut interpretation</span>
+      </span>
+      <span class="other-markers-icon">+</span>
+    </button>
+
+    <div class="other-markers-content">
+      <div class="other-markers-inner">
+        <p class="other-markers-intro">
+          Historical record of the interpretation and decision framework from the Jan 2026 sample, before the 4-month AB Healthy Gut window completed. Preserved here for context — current decisions are reflected in the "Jun 2026 conclusions" section above.
+        </p>
+
+        <div class="insights" style="margin-top:16px">
+          <div class="insight-card wins">
+            <div class="insight-header">✓ Improvements (Aug → Jan)</div>
+            <ul class="insight-list">
+              <li><em>Faecalibacterium</em> recovered 0.0 → 0.8 (butyrate producer; HDAC anti-seizure mechanism)</li>
+              <li><em>Sutterella</em> normalized 5.0 → 0.7</li>
+              <li><em>Peptoclostridium</em> normalized 22.4 → 9.6</li>
+              <li>Likely attributable to Green Juju's dandelion inulin + leafy green fiber (started 9/15/2025)</li>
+            </ul>
+          </div>
+          <div class="insight-card concerns">
+            <div class="insight-header">! Persistent gaps (Jan 2026)</div>
+            <ul class="insight-list">
+              <li><em>Prevotella_9</em> stuck at 0.0 — protective taxon per 2025 epilepsy trial</li>
+              <li><em>Fusobacterium</em> 32.3 → 49.4 — pro-inflammatory dominance, gram-negative LPS concern</li>
+              <li><em>R. gnavus</em> 0.1 → 4.7 (47× expansion) — mucin degradation, BBB risk emerging</li>
+              <li>Adored Beast Healthy Gut effects not yet measured — started Jan 13, 2026</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="background:#faf7f1;border-left:3px solid #6b6258;padding:18px 22px;margin-top:18px;border-radius:2px;font-size:13px;line-height:1.7;color:#3d3a35">
+          <strong style="display:block;margin-bottom:10px;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1px">What we expected from the Jun 2026 retest (Jan-era hypothesis)</strong>
+          The Jan 2026 sample showed a partial win on SCFA producers (Faecalibacterium recovery) likely driven by Green Juju, but worsening on inflammatory/gram-negative markers (Fusobacterium dominance, R. gnavus 47× expansion). The plan going into the 4-month AB Healthy Gut window was: (1) broad 14-strain bacterial pressure + larch arabinogalactan prebiotic should suppress Fusobacterium and feed Prevotella; (2) targeted addition of S. boulardii, goat colostrum, and possibly The Wolf was being held back as "tier 2/3" pending the retest data.
+          <br><br>
+          <strong>What the Jun 2026 sample actually showed:</strong> AB Healthy Gut resolved Fusobacterium (49.4 → 6.0 ✓) and established Lactobacillus/Bifidobacterium colonization ✓ — but did NOT address the IE-specific dysbiosis signature. R. gnavus exploded further (4.7 → 33.4 Critical), Prevotella stayed at 0.0, Faecalibacterium lost its gain, and Collinsella began rising (the Yang 2026 most-robust IE biomarker). This shifted the priority order: S. boulardii moved from "planned" to "Priority 1" (started 5/26 ahead of pheno load), and Visbiome Vet Advanced GI Care (De Simone Formulation, ACVIM 2026 endorsed for dogs) emerged as the strongest candidate for next addition pending vet discussion.
+          <br><br>
+          <strong>Key learning preserved:</strong> Fusobacterium urgency framing was partly correct (LPS pathway is real) but the AB Healthy Gut intervention happened to address it incidentally. The bigger lesson is that <em>general gut health interventions don't necessarily move IE-specific markers</em>. Targeted strain selection (GABA producers, R. gnavus suppressors, Prevotella enrichers per canine in vivo evidence) is required.
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- FOOTER NOTE -->
   <div class="footer-note">
-    Educational reference for Theo's care. Markers are derived from Animabiome reports. Healthy ranges are Animabiome's published reference values. Mechanism annotations draw on García-Belenguer 2021 & 2025 (canine epilepsy microbiome), Amlerova 2021 (gut-brain axis in epilepsy), Muñana 2020 (AED-probiotic safety), and Olson 2018 (KD-microbiome mechanism). Not a diagnostic tool — confirm any intervention changes with TCVM and conventional veterinary teams.
+    Educational reference for Theo's care. Markers are derived from Animabiome reports. Healthy ranges are Animabiome's published reference values. Mechanism annotations draw on García-Belenguer 2021 & 2025 (canine epilepsy microbiome), Yang 2026 (largest canine IE microbiome study; Collinsella biomarker), Amlerova 2021 (gut-brain axis in epilepsy), Muñana 2020 (AED-probiotic safety + pilot for Yang 2026), and Olson 2018 (KD-microbiome mechanism). Not a diagnostic tool — confirm any intervention changes with TCVM and conventional veterinary teams.
   </div>
 
 </div>
@@ -2560,6 +2847,24 @@ const SAMPLES = [
       ruminococcus_gnavus: { value: 4.7,  range: [0.1, 3.4]  },
       alloprevotella:      { value: 11.0, range: [0.0, 10.5] },
       bacteroides:         { value: 13.6, range: [0.7, 34.4] }
+    }
+  },
+  {
+    id: 'jun-2026',
+    date: '2026-05-16',
+    label: 'Jun 2026',
+    weight: 87,
+    notes: 'Post-4mo AB Healthy Gut · 6 days pre-Cluster 8 · Cephalexin ended Feb · AnimalBiome flag: "Balanced"',
+    markers: {
+      prevotella_9:        { value: 0.0,  range: [0.0, 42.2] },
+      faecalibacterium:    { value: 0.0,  range: [0.1, 3.7]  },
+      megamonas:           { value: 0.2,  range: [1.4, 41.5] },
+      blautia:             { value: 1.9,  range: [0.9, 10.7] },
+      phascolarctobacterium:{ value: 0.0, range: [0.0, 2.0]  },
+      fusobacterium:       { value: 6.0,  range: [0.5, 20.8] },
+      ruminococcus_gnavus: { value: 33.4, range: [0.1, 3.4]  },
+      alloprevotella:      { value: 0.0,  range: [0.0, 10.5] },
+      bacteroides:         { value: 17.5, range: [0.7, 34.4] }
     }
   }
 ];
@@ -2646,7 +2951,7 @@ const MARKERS = {
     mechanism: 'Mucin degradation → leaky gut → BBB permeability → neuroinflammation. Associated with inflammatory bowel patterns.',
     targetedBy: [
       { name: 'Adored Beast (competitive)', status: 'active' },
-      { name: 'S. boulardii', status: 'planned' },
+      { name: 'S. boulardii', status: 'active' },
       { name: 'Goat colostrum (barrier)', status: 'planned-priority' },
       { name: 'Slippery elm', status: 'planned' }
     ]
@@ -2679,7 +2984,7 @@ const INTERVENTIONS = [
     startDate: '2025-09-15',
     endDate: null,
     color: 'green-juju',
-    rationale: 'Dandelion inulin + leafy green fiber → Faecalibacterium, Megamonas, Blautia',
+    rationale: 'Dandelion inulin + leafy fiber → SCFA producers',
     targets: ['faecalibacterium', 'megamonas', 'blautia', 'phascolarctobacterium']
   },
   {
@@ -2687,8 +2992,16 @@ const INTERVENTIONS = [
     startDate: '2026-01-13',
     endDate: null,
     color: 'adored-beast',
-    rationale: '14-strain probiotic + larch arabinogalactan → broad strain pressure + Prevotella substrate',
+    rationale: '14-strain probiotic + larch arabinogalactan',
     targets: ['prevotella_9', 'faecalibacterium', 'fusobacterium', 'ruminococcus_gnavus', 'blautia']
+  },
+  {
+    name: 'S. boulardii + FOS',
+    startDate: '2026-05-26',
+    endDate: null,
+    color: 's-boulardii',
+    rationale: 'Yeast probiotic · R. gnavus suppression',
+    targets: ['ruminococcus_gnavus']
   }
 ];
 
@@ -2818,8 +3131,8 @@ function renderMarkerCard(key, marker) {
       </div>
 
       <div class="marker-col-value">
-        <div class="marker-current">${data.value.toFixed(1)}</div>
-        <div class="marker-unit">rel. abundance</div>
+        <div class="marker-current">${data.value.toFixed(1)}<span style="font-size:0.5em;font-weight:normal;opacity:0.7;margin-left:2px">%</span></div>
+        <div class="marker-unit">relative abundance</div>
         <div class="marker-trend ${trend.class}">${trend.label}</div>
       </div>
 
@@ -2839,7 +3152,7 @@ function renderMarkerCard(key, marker) {
           <div class="range-bar-healthy" style="left: ${healthyLeft}%; width: ${healthyWidth}%"></div>
           <div class="range-bar-marker" style="left: ${markerPos}%"></div>
         </div>
-        <div class="range-label">healthy: ${low.toFixed(1)}–${high.toFixed(1)}</div>
+        <div class="range-label">healthy: ${low.toFixed(1)}–${high.toFixed(1)}%</div>
       </div>
 
       <div class="marker-col-mechanism">${marker.mechanism}</div>
@@ -3032,44 +3345,67 @@ window.addEventListener('resize', drawTrendChart);
 // ============================================================
 
 const OTHER_MARKERS = {
+  epilepsy: {
+    title: 'Epilepsy-relevant markers · primary dashboard tracking',
+    markers: [
+      { name: 'Bacteroides',            range: [0.7, 34.4], aug: 23.5, jan: 13.6, jun: 17.5 },
+      { name: 'Fusobacterium',          range: [0.5, 20.8], aug: 32.3, jan: 49.4, jun: 6.0  },
+      { name: 'Alloprevotella',         range: [0.0, 10.5], aug: 4.9,  jan: 11.0, jun: 0.0  },
+      { name: 'Blautia',                range: [0.9, 10.7], aug: 4.6,  jan: 2.6,  jun: 1.9  },
+      { name: 'R. gnavus',              range: [0.1, 3.4],  aug: 0.1,  jan: 4.7,  jun: 33.4 },
+      { name: 'Faecalibacterium',       range: [0.1, 3.7],  aug: 0.0,  jan: 0.8,  jun: 0.0  },
+      { name: 'Phascolarctobacterium',  range: [0.0, 2.0],  aug: 0.4,  jan: 0.8,  jun: 0.0  },
+      { name: 'Prevotella_9',           range: [0.0, 42.2], aug: 0.0,  jan: 0.0,  jun: 0.0  },
+      { name: 'Megamonas',              range: [1.4, 41.5], aug: 0.3,  jan: 0.6,  jun: 0.2  }
+    ]
+  },
   common: {
     title: 'Common bacteria · not seizure-relevant',
     markers: [
-      { name: 'Catenibacterium',          range: [0.0, 20.3], aug: 0.0,  jan: 0.0  },
-      { name: 'Peptoclostridium',         range: [1.4, 17.6], aug: 22.4, jan: 9.6  },
-      { name: 'Clostridium sensu stricto 1', range: [0.0, 13.0], aug: 0.0, jan: 0.1 },
-      { name: 'Turcibacter',              range: [0.0, 9.2],  aug: 0.0,  jan: 0.0  },
-      { name: 'Romboutsia',               range: [0.0, 6.0],  aug: 0.0,  jan: 0.0  },
-      { name: 'Collinsella',              range: [0.5, 5.7],  aug: 1.9,  jan: 0.5  },
-      { name: 'Holdemanella type 2',      range: [0.0, 5.0],  aug: 0.1,  jan: 0.0  },
-      { name: 'Sutterella',               range: [0.5, 4.1],  aug: 5.0,  jan: 0.7  },
-      { name: 'Lachnospiraceae type 10',  range: [0.2, 2.7],  aug: 1.6,  jan: 1.1  },
-      { name: 'Allobaculum',              range: [0.0, 1.6],  aug: 0.7,  jan: 1.0  },
-      { name: 'Lachnoclostridium type 2', range: [0.1, 1.0],  aug: 0.1,  jan: 0.1  }
+      { name: 'Catenibacterium',          range: [0.0, 20.3], aug: 0.0,  jan: 0.0,  jun: 0.0  },
+      { name: 'Peptoclostridium',         range: [1.4, 17.6], aug: 22.4, jan: 9.6,  jun: 26.6 },
+      { name: 'Clostridium sensu stricto 1', range: [0.0, 13.0], aug: 0.0, jan: 0.1, jun: 0.1 },
+      { name: 'Turcibacter',              range: [0.0, 9.2],  aug: 0.0,  jan: 0.0,  jun: 0.0  },
+      { name: 'Romboutsia',               range: [0.0, 6.0],  aug: 0.0,  jan: 0.0,  jun: 0.1  },
+      { name: 'Collinsella',              range: [0.5, 5.7],  aug: 1.9,  jan: 0.5,  jun: 2.1  },
+      { name: 'Holdemanella type 2',      range: [0.0, 5.0],  aug: 0.1,  jan: 0.0,  jun: 0.0  },
+      { name: 'Sutterella',               range: [0.5, 4.1],  aug: 5.0,  jan: 0.7,  jun: 0.0  },
+      { name: 'Lachnospiraceae type 10',  range: [0.2, 2.7],  aug: 1.6,  jan: 1.1,  jun: 1.2  },
+      { name: 'Allobaculum',              range: [0.0, 1.6],  aug: 0.7,  jan: 1.0,  jun: 0.0  },
+      { name: 'Lachnoclostridium type 2', range: [0.1, 1.0],  aug: 0.1,  jan: 0.1,  jun: 0.1  }
     ]
   },
   other: {
     title: 'Other bacteria · low abundance',
     markers: [
-      { name: 'Anaeroplasma',             range: [0.0, 5.0], aug: 0.0, jan: 2.3 },
-      { name: 'Peptococcus',              range: [0.0, 5.0], aug: 1.0, jan: 0.0 },
-      { name: 'Ruminococcus torques',     range: [0.0, 5.0], aug: 0.4, jan: 0.1 },
-      { name: 'Butyricicoccus',           range: [0.0, 5.0], aug: 0.0, jan: 0.2 },
-      { name: 'Fournierella',             range: [0.0, 5.0], aug: 0.0, jan: 0.2 },
-      { name: 'Muribaculaceae type 2',    range: [0.0, 5.0], aug: 0.0, jan: 0.2 },
-      { name: 'Candidatus stoquefichus',  range: [0.0, 5.0], aug: 0.2, jan: 0.0 },
-      { name: 'Streptococcus',            range: [0.0, 5.0], aug: 0.2, jan: 0.0 },
-      { name: 'Odoribacter',              range: [0.0, 5.0], aug: 0.0, jan: 0.1 },
-      { name: 'Sellimonas',               range: [0.0, 5.0], aug: 0.0, jan: 0.1 },
-      { name: 'Clostridia uc',            range: [0.0, 5.0], aug: 0.1, jan: 0.0 },
-      { name: 'Erysipelatoclostridium',   range: [0.0, 5.0], aug: 0.1, jan: 0.0 },
-      { name: 'Slackia',                  range: [0.0, 5.0], aug: 0.1, jan: 0.0 }
+      { name: 'Bifidobacterium',          range: [0.0, 5.0], aug: 0.0, jan: 0.0, jun: 5.7 },
+      { name: 'Lactobacillus',            range: [0.0, 5.0], aug: 0.0, jan: 0.0, jun: 2.0 },
+      { name: 'Escherichia-shigella',     range: [0.0, 5.0], aug: 0.0, jan: 0.0, jun: 0.7 },
+      { name: 'Parasutterella',           range: [0.0, 5.0], aug: 0.0, jan: 0.0, jun: 0.4 },
+      { name: 'Faecalitalea',             range: [0.0, 5.0], aug: 0.0, jan: 0.0, jun: 0.3 },
+      { name: 'Flavonifractor',           range: [0.0, 5.0], aug: 0.0, jan: 0.0, jun: 0.3 },
+      { name: 'Slackia',                  range: [0.0, 5.0], aug: 0.1, jan: 0.0, jun: 0.2 },
+      { name: 'Anaeroplasma',             range: [0.0, 5.0], aug: 0.0, jan: 2.3, jun: 0.0 },
+      { name: 'Peptococcus',              range: [0.0, 5.0], aug: 1.0, jan: 0.0, jun: 0.0 },
+      { name: 'Ruminococcus torques',     range: [0.0, 5.0], aug: 0.4, jan: 0.1, jun: 0.0 },
+      { name: 'Butyricicoccus',           range: [0.0, 5.0], aug: 0.0, jan: 0.2, jun: 0.0 },
+      { name: 'Fournierella',             range: [0.0, 5.0], aug: 0.0, jan: 0.2, jun: 0.0 },
+      { name: 'Muribaculaceae type 2',    range: [0.0, 5.0], aug: 0.0, jan: 0.2, jun: 0.0 },
+      { name: 'Candidatus stoquefichus',  range: [0.0, 5.0], aug: 0.2, jan: 0.0, jun: 0.0 },
+      { name: 'Streptococcus',            range: [0.0, 5.0], aug: 0.2, jan: 0.0, jun: 0.0 },
+      { name: 'Odoribacter',              range: [0.0, 5.0], aug: 0.0, jan: 0.1, jun: 0.0 },
+      { name: 'Sellimonas',               range: [0.0, 5.0], aug: 0.0, jan: 0.1, jun: 0.0 },
+      { name: 'Clostridia uc',            range: [0.0, 5.0], aug: 0.1, jan: 0.0, jun: 0.1 },
+      { name: 'Erysipelatoclostridium',   range: [0.0, 5.0], aug: 0.1, jan: 0.0, jun: 0.0 },
+      { name: 'Lacticaseibacillus',       range: [0.0, 5.0], aug: 0.0, jan: 0.0, jun: 0.1 },
+      { name: 'Lactiplantibacillus',      range: [0.0, 5.0], aug: 0.0, jan: 0.0, jun: 0.1 },
+      { name: 'Limosilactobacillus',      range: [0.0, 5.0], aug: 0.0, jan: 0.0, jun: 0.1 }
     ]
   }
 };
 
-function classifyChange(aug, jan) {
-  const delta = jan - aug;
+function classifyChange(prev, current) {
+  const delta = current - prev;
   if (Math.abs(delta) < 0.15) return { dir: 'stable', label: '→', cls: 'change-stable' };
   if (delta > 0) return { dir: 'up', label: `↑ ${delta.toFixed(1)}`, cls: 'change-up' };
   return { dir: 'down', label: `↓ ${Math.abs(delta).toFixed(1)}`, cls: 'change-down' };
@@ -3091,22 +3427,24 @@ function renderOtherMarkersTables() {
       <thead>
         <tr>
           <th>Marker</th>
-          <th>Aug</th>
-          <th>Jan</th>
-          <th>Δ</th>
-          <th style="text-align:right">Range</th>
+          <th>Aug %</th>
+          <th>Jan %</th>
+          <th>Jun %</th>
+          <th>Δ Jan→Jun</th>
+          <th style="text-align:right">Healthy range %</th>
           <th style="text-align:right">Status</th>
         </tr>
       </thead>
       <tbody>`;
 
     group.markers.forEach(m => {
-      const change = classifyChange(m.aug, m.jan);
-      const status = rangeStatus(m.jan, m.range);
+      const change = classifyChange(m.jan, m.jun);
+      const status = rangeStatus(m.jun, m.range);
       html += `<tr>
         <td class="name-cell">${m.name}</td>
         <td class="value-cell">${m.aug.toFixed(1)}</td>
         <td class="value-cell">${m.jan.toFixed(1)}</td>
+        <td class="value-cell"><strong>${m.jun.toFixed(1)}</strong></td>
         <td class="change-cell ${change.cls}">${change.label}</td>
         <td class="range-cell">${m.range[0].toFixed(1)}–${m.range[1].toFixed(1)}</td>
         <td class="status-cell">${status}</td>
@@ -3127,7 +3465,7 @@ renderOtherMarkersTables();
 
 function renderInterventionTimeline() {
   const overallStart = new Date(SAMPLES[0].date);
-  const overallEnd = new Date('2026-05-13');
+  const overallEnd = new Date('2026-09-16');
   const totalRange = overallEnd - overallStart;
 
   const html = INTERVENTIONS.map(iv => {
@@ -3148,7 +3486,7 @@ function renderInterventionTimeline() {
         <div class="timeline-label">
           <div class="timeline-name">${iv.name}</div>
           <div class="timeline-meta">Started ${formatDate(iv.startDate)}</div>
-          <div class="timeline-meta" style="margin-top:6px; max-width:180px; line-height:1.4">${iv.rationale}</div>
+          <div class="timeline-meta" style="margin-top:4px; max-width:135px">${iv.rationale}</div>
         </div>
         <div class="timeline-bar-container">
           <div class="timeline-bar ${iv.color}" style="left: ${left}%; width: ${width}%"></div>
@@ -3164,6 +3502,7 @@ function renderInterventionTimeline() {
       <div class="timeline-axis-labels">
         <span>${formatDate(SAMPLES[0].date)}</span>
         <span>Jan 2026</span>
+        <span>Jun 2026</span>
         <span>${formatDate(overallEnd)} (next retest)</span>
       </div>
     </div>
@@ -3173,6 +3512,35 @@ function renderInterventionTimeline() {
 }
 
 renderInterventionTimeline();
+
+// ============================================================
+// PDF EXPORT — Other Microbiome Markers section only
+// ============================================================
+
+function exportMicrobiomePDF() {
+  const el = document.getElementById('otherMarkers');
+  if (!el) return;
+
+  // Save state and force open
+  const wasOpen = el.classList.contains('open');
+  el.classList.add('open');
+
+  // Add body class to trigger print-mode styles (helps if user wants preview)
+  document.body.classList.add('printing-microbiome');
+
+  // Give the browser a moment to apply styles, then print
+  setTimeout(() => {
+    window.print();
+
+    // Restore state after print dialog closes
+    setTimeout(() => {
+      document.body.classList.remove('printing-microbiome');
+      if (!wasOpen) {
+        el.classList.remove('open');
+      }
+    }, 500);
+  }, 150);
+}
 </script>
 </body>
 <!-- ════════════════════════════════════════════════════════════
